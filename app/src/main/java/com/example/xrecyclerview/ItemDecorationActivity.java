@@ -12,9 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.jcodecraeer.xrecyclerview.XRecyclerView.DividerItemDecoration;
+import com.mercury.xrecyclerview.ProgressStyle;
+import com.mercury.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 

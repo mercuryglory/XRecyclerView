@@ -36,10 +36,12 @@ public abstract class BaseRecylerAdapter<T> extends RecyclerView.Adapter {
     }
 
     public void addData(List<T> list) {
-        int lastIndex = this.mData.size();
-        if (this.mData.addAll(list)) {
-            notifyItemRangeInserted(lastIndex, list.size());
-        }
+//        int lastIndex = this.mData.size();
+//        if (this.mData.addAll(list)) {
+//            notifyItemRangeInserted(lastIndex, list.size());
+//        }
+        mData.addAll(list);
+        notifyDataSetChanged();
     }
 
     public void removePos(int position) {
@@ -54,6 +56,7 @@ public abstract class BaseRecylerAdapter<T> extends RecyclerView.Adapter {
         if(this.mData.size() > 0) {
             mData.remove(obj);
         }
+        notifyDataSetChanged();
 
     }
 

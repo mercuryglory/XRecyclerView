@@ -2,19 +2,19 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.3.2"
-group = "com.jcodecraeer"
+version = "1.0.0"
+group = "com.mercury"
 
-def siteUrl = 'https://github.com/jianghejie/XRecyclerView'
-def gitUrl = 'https://github.com/jianghejie/XRecyclerView.git'
+def siteUrl = 'https://github.com/mercuryglory/XRecyclerView'
+def gitUrl = 'https://github.com/mercuryglory/XRecyclerView.git'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -28,9 +28,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
 }
 
 install {
@@ -51,9 +51,9 @@ install {
                 }
                 developers {
                     developer {
-                        id 'jianghejie'        //填写的一些基本信息
-                        name 'jianghejie'
-                        email 'jianghejie888@gmail.com'
+                        id 'mercury'        //填写的一些基本信息
+                        name 'mercury'
+                        email 'wzhseu@163.com'
                     }
                 }
                 scm {
