@@ -3,7 +3,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 version = "1.0.0"
-group = "com.mercury"
+group = "com.mercury.xrecyclerview"
 
 def siteUrl = 'https://github.com/mercuryglory/XRecyclerView'
 def gitUrl = 'https://github.com/mercuryglory/XRecyclerView.git'
@@ -70,7 +70,6 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
-
 artifacts {
     archives sourcesJar
 }
