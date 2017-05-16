@@ -53,7 +53,7 @@ install {
                     developer {
                         id 'mercury'        //填写的一些基本信息
                         name 'mercury'
-                        email 'wzhseu@163.com'
+                        email 'wzhseu@hotmail.com'
                     }
                 }
                 scm {
