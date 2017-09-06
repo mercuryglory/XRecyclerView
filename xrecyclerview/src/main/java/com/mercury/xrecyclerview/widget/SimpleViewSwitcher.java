@@ -1,4 +1,4 @@
-package com.mercury.xrecyclerview;
+package com.mercury.xrecyclerview.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -7,15 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.xrecyclerview.adapter.MyAdapter;
 import com.mercury.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 
 public class EmptyViewActivity extends AppCompatActivity {
-    private XRecyclerView mRecyclerView;
-    private MyAdapter mAdapter;
+    private XRecyclerView     mRecyclerView;
+    private MyAdapter         mAdapter;
     private ArrayList<String> listData;
-    private View mEmptyView;
+    private View              mEmptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,11 +1,12 @@
-package com.example.xrecyclerview;
+package com.example.xrecyclerview.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.xrecyclerview.R;
 
 public class MyItemadapter extends RecyclerView.Adapter<MyItemadapter.ViewHolder> implements View.OnClickListener{
     private  String[]  datas;

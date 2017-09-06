@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.xrecyclerview.adapter.BaseRecylerAdapter;
+import com.example.xrecyclerview.bean.TestBean;
 import com.mercury.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -119,8 +121,7 @@ public class MainActivity extends AppCompatActivity implements XRecyclerView.Loa
     public class MyAdapter extends BaseRecylerAdapter {
 
         public MyAdapter(Context context) {
-            mContext = context;
-            mInflater = LayoutInflater.from(mContext);
+            super(context);
         }
 
         @Override

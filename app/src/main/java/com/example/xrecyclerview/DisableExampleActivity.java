@@ -6,13 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.xrecyclerview.adapter.MyAdapter;
 import com.mercury.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 
 public class DisableExampleActivity extends AppCompatActivity {
-    private XRecyclerView mRecyclerView;
-    private MyAdapter mAdapter;
+    private XRecyclerView     mRecyclerView;
+    private MyAdapter         mAdapter;
     private ArrayList<String> listData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.mercury.xrecyclerview.widget.ArrowRefreshHeader;
+import com.mercury.xrecyclerview.widget.LoadingMoreFooter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,6 +179,7 @@ public class XRecyclerView extends RecyclerView {
             mFootView.setVisibility(View.GONE);
         }
     }
+
     public void refresh() {
         if (pullRefreshEnabled && mLoadingListener != null) {
             mRefreshHeader.setState(ArrowRefreshHeader.STATE_REFRESHING);
@@ -243,9 +247,7 @@ public class XRecyclerView extends RecyclerView {
     public void setAdapter(Adapter adapter) {
         mAdapter = adapter;
         mWrapAdapter = new WrapAdapter(adapter);
-        //        mWrapAdapter = new TestAdapter(adapter,mRefreshHeader,mFootView);
         super.setAdapter(mWrapAdapter);
-        //        mWrapAdapter.registerAdapterDataObserver(mDataObserver);
         mAdapter.registerAdapterDataObserver(mDataObserver);
         mDataObserver.onChanged();
     }
@@ -339,6 +341,7 @@ public class XRecyclerView extends RecyclerView {
                 downY = (int) ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                LogUtil.logI("lastY:" + mLastY + " eventY:" + ev.getRawY());
                 final float deltaY = ev.getRawY() - mLastY;
                 mLastY = ev.getRawY();
                 if (isOnTop() && pullRefreshEnabled && appbarState == AppBarStateChangeListener.State.EXPANDED) {

@@ -1,4 +1,4 @@
-package com.mercury.xrecyclerview;
+package com.mercury.xrecyclerview.widget;
 
 /**
  * Created by jianghejie on 15/11/22.
@@ -14,8 +14,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.mercury.xrecyclerview.BaseRefreshHeader;
 
-public class JellyView extends View  implements BaseRefreshHeader{
+
+public class JellyView extends View  implements BaseRefreshHeader {
     Path path;
 
     Paint paint;

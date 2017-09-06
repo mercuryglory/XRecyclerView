@@ -12,14 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.xrecyclerview.adapter.MyAdapter;
 import com.mercury.xrecyclerview.ProgressStyle;
 import com.mercury.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 
 public class StaggeredGridActivity extends AppCompatActivity {
-    private XRecyclerView mRecyclerView;
-    private MyAdapter mAdapter;
+    private XRecyclerView     mRecyclerView;
+    private MyAdapter         mAdapter;
     private ArrayList<String> listData;
     private int refreshTime = 0;
     private int times = 0;

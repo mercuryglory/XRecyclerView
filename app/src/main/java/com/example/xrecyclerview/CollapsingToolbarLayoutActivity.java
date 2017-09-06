@@ -7,14 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.xrecyclerview.adapter.MyAdapter;
 import com.mercury.xrecyclerview.ProgressStyle;
 import com.mercury.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 
 public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
-    private XRecyclerView mRecyclerView;
-    private MyAdapter mAdapter;
+    private XRecyclerView     mRecyclerView;
+    private MyAdapter         mAdapter;
     private ArrayList<String> listData;
     private int refreshTime = 0;
     private int times = 0;

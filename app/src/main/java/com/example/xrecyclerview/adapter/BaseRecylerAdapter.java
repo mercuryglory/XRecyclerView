@@ -1,4 +1,4 @@
-package com.example.xrecyclerview;
+package com.example.xrecyclerview.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +18,11 @@ public abstract class BaseRecylerAdapter<T> extends RecyclerView.Adapter {
     public List<T> mData = new ArrayList<>();
 
     public LayoutInflater mInflater;
+
+    public BaseRecylerAdapter(Context context) {
+        mContext = context;
+        mInflater = LayoutInflater.from(mContext);
+    }
 
 
     @Override

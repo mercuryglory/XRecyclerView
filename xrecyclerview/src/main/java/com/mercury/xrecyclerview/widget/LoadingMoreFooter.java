@@ -1,4 +1,4 @@
-package com.mercury.xrecyclerview;
+package com.mercury.xrecyclerview.widget;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mercury.xrecyclerview.ProgressStyle;
+import com.mercury.xrecyclerview.R;
 import com.mercury.xrecyclerview.progressindicator.AVLoadingIndicatorView;
 
 public class LoadingMoreFooter extends LinearLayout {

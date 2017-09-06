@@ -1,11 +1,11 @@
-package com.example.xrecyclerview;
+package com.example.xrecyclerview.bean;
 
 import java.io.Serializable;
 
 /**
  * 创建者:    wang.zhonghao
  * 创建时间:  2017/4/14
- * 描述:      ${TODO}
+ * 描述:      供测试使用的
  */
 public class TestBean implements Serializable {
 
