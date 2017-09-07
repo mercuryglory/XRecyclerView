@@ -341,11 +341,12 @@ public class XRecyclerView extends RecyclerView {
                 downY = (int) ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                LogUtil.logI("lastY:" + mLastY + " eventY:" + ev.getRawY());
                 final float deltaY = ev.getRawY() - mLastY;
                 mLastY = ev.getRawY();
+                LogUtil.logI("lastY:" + isOnTop());
                 if (isOnTop() && pullRefreshEnabled && appbarState == AppBarStateChangeListener.State.EXPANDED) {
                     mRefreshHeader.onMove(deltaY / DRAG_RATE);
+
                     if (mRefreshHeader.getVisibleHeight() > 0 && mRefreshHeader.getState() < ArrowRefreshHeader.STATE_REFRESHING) {
                         return false;
                     }

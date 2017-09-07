@@ -2,6 +2,7 @@ package com.example.xrecyclerview;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.xrecyclerview.adapter.BaseRecylerAdapter;
-import com.example.xrecyclerview.bean.TestBean;
 import com.mercury.xrecyclerview.CRecyclerView;
+import com.mercury.xrecyclerview.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by wang.zhonghao on 2017/9/6.
  */
 
-public class ChatListActivity extends AppCompatActivity {
+public class ChatListActivity extends AppCompatActivity implements CRecyclerView.LoadingListener {
 
     CRecyclerView mCRecyclerView;
     MyAdapter mMyAdapter;
@@ -39,12 +40,31 @@ public class ChatListActivity extends AppCompatActivity {
         mCRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCRecyclerView.setAdapter(mMyAdapter);
 
-        List<TestBean> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            list.add(new TestBean(i));
+            list.add("初始化" + i + "个条目");
         }
 
         mMyAdapter.setData(list);
+
+        mCRecyclerView.setOnLoadingListener(this);
+    }
+
+    @Override
+    public void refresh() {
+        LogUtil.logI("更多啦");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<String> list = new ArrayList<>();
+                for (int i = 5; i < 10; i++) {
+                    list.add("我是第" + i + "个项目");
+                }
+                mMyAdapter.addData(list, 0);
+                mCRecyclerView.refreshComplete();
+            }
+        }, 1500);
+
     }
 
     public class MyAdapter extends BaseRecylerAdapter {
@@ -63,8 +83,8 @@ public class ChatListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ViewHolder viewHolder = (ViewHolder) holder;
-            TestBean bean = (TestBean) mData.get(position);
-            viewHolder.tvText.setText(bean.getNumber() + "");
+            String text = (String) mData.get(position);
+            viewHolder.tvText.setText(text);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

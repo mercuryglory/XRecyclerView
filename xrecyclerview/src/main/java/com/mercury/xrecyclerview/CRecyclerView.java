@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,9 @@ public class CRecyclerView extends RecyclerView {
     public static final int DEGREE = 3;
 
     private float mLastY = -1;
+
+    private final AdapterDataObserver observer = new DataObserver();
+    private WrapAdapter mWrapAdapter;
 
 
     public CRecyclerView(Context context) {
@@ -44,7 +48,13 @@ public class CRecyclerView extends RecyclerView {
     public void setAdapter(Adapter adapter) {
         WrapAdapter wrapAdapter = new WrapAdapter(adapter);
         super.setAdapter(wrapAdapter);
+        mWrapAdapter = wrapAdapter;
+        mWrapAdapter.registerAdapterDataObserver(observer);
 
+    }
+
+    public void refreshComplete() {
+        mRefreshHeader.refreshComplete();
     }
 
     @Override
@@ -55,13 +65,21 @@ public class CRecyclerView extends RecyclerView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 float deltaY = e.getRawY() - mLastY;
-                LogUtil.logI("deltaY:" + deltaY);
                 mLastY = e.getRawY();
-                mRefreshHeader.onMove(deltaY / DEGREE);
+                LogUtil.logI("lastY:" + isOnTop());
+                if (isOnTop()) {
+                    mRefreshHeader.onMove(deltaY / DEGREE);
+                }
                 break;
             default:
                 //reset
                 mLastY = -1;
+                if (isOnTop() && mRefreshHeader.releaseAction()) {
+                    if (loadingListener != null) {
+                        loadingListener.refresh();
+                    }
+                    Log.e("refresh", "onTouchEvent: ");
+                }
                 break;
 
         }
@@ -79,6 +97,7 @@ public class CRecyclerView extends RecyclerView {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == TYPE_REFRESH_HEADER) {
+                Log.i("refresh_bind", mRefreshHeader.getVisibleHeight() + "");
                 return new SimpleViewHolder(mRefreshHeader);
             }
             return mAdapter.onCreateViewHolder(parent, viewType);
@@ -122,8 +141,22 @@ public class CRecyclerView extends RecyclerView {
         }
     }
 
+    LoadingListener loadingListener;
+
+    public interface LoadingListener {
+        void refresh();
+    }
+
+    public void setOnLoadingListener(LoadingListener listener) {
+        loadingListener = listener;
+    }
+
     private boolean isRefreshHeader(int position) {
         return position == 0;
+    }
+
+    private boolean isOnTop() {
+        return mRefreshHeader.getParent() != null;
     }
 
     private class SimpleViewHolder extends ViewHolder {
@@ -132,5 +165,33 @@ public class CRecyclerView extends RecyclerView {
             super(itemView);
         }
     }
+
+    private class DataObserver extends AdapterDataObserver {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            mWrapAdapter.notifyItemRangeChanged(positionStart + 1, itemCount);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            mWrapAdapter.notifyItemRangeInserted(positionStart + 1, itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            mWrapAdapter.notifyItemRangeRemoved(positionStart + 1, itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            mWrapAdapter.notifyItemMoved(fromPosition + 1, toPosition + 1 + itemCount);
+        }
+    }
+
 
 }

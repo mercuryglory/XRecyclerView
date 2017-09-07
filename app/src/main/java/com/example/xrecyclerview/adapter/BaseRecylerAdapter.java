@@ -41,13 +41,17 @@ public abstract class BaseRecylerAdapter<T> extends RecyclerView.Adapter {
     }
 
     public void addData(List<T> list) {
-//        int lastIndex = this.mData.size();
-//        if (this.mData.addAll(list)) {
-//            notifyItemRangeInserted(lastIndex, list.size());
-//        }
-        mData.addAll(list);
-        notifyDataSetChanged();
+        int lastIndex = this.mData.size();
+        if (this.mData.addAll(list)) {
+            notifyItemRangeInserted(lastIndex, list.size());
+        }
     }
+
+    public void addData(List<T> list, int index) {
+        mData.addAll(index, list);
+        notifyItemRangeInserted(index, list.size());
+    }
+
 
     public void removePos(int position) {
         if(this.mData.size() > 0) {
