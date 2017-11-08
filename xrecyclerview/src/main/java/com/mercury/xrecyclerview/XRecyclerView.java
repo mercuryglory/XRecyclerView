@@ -284,7 +284,7 @@ public class XRecyclerView extends RecyclerView {
         super.onScrollStateChanged(state);
         boolean s1 = loadingMoreEnabled;
         int s2 = 1;
-        if (state == RecyclerView.SCROLL_STATE_IDLE && mLoadingListener != null && !isLoadingData && loadingMoreEnabled) {
+        if (state == RecyclerView.SCROLL_STATE_IDLE  && isPullUp()&& mLoadingListener != null && !isLoadingData && loadingMoreEnabled) {
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;
             if (layoutManager instanceof GridLayoutManager) {
@@ -312,7 +312,7 @@ public class XRecyclerView extends RecyclerView {
             //                mLoadingListener.onLoadMore();
             //            }
             if (layoutManager.getChildCount() > 0
-                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 && isPullUp()
+                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 1
                     && !isNoMore && mRefreshHeader.getState() < ArrowRefreshHeader.STATE_REFRESHING) {
                 isLoadingData = true;
                 if (mFootView instanceof LoadingMoreFooter) {
@@ -336,10 +336,10 @@ public class XRecyclerView extends RecyclerView {
             mLastY = ev.getRawY();
         }
         switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mLastY = ev.getRawY();
-                downY = (int) ev.getRawY();
-                break;
+            //            case MotionEvent.ACTION_DOWN:
+            //                mLastY = ev.getRawY();
+            //                downY = (int) ev.getRawY();
+            //                break;
             case MotionEvent.ACTION_MOVE:
                 final float deltaY = ev.getRawY() - mLastY;
                 mLastY = ev.getRawY();
@@ -365,6 +365,15 @@ public class XRecyclerView extends RecyclerView {
                 break;
         }
         return super.onTouchEvent(ev);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            downY = (int) ev.getRawY();
+            mLastY = ev.getRawY();
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private int findMax(int[] lastPositions) {

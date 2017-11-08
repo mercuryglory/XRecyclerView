@@ -114,7 +114,6 @@ public class ChatRefreshHeader extends LinearLayout implements BaseRefreshHeader
     @Override
     public void refreshComplete() {
         isRefreshing = false;
-        setVisibleHeight(0);
         smoothScrollTo(0);
         LogUtil.logI("releaseHeight " + getVisibleHeight());
     }

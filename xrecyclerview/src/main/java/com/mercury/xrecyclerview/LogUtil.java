@@ -10,7 +10,7 @@ public class LogUtil {
 
     protected static String TAG = "Mercury";
 
-    protected static boolean DEBUG = true;
+    protected static boolean DEBUG = false;
 
     public static void logI(String tag, String msg) {
         if (DEBUG) {

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.xrecyclerview.adapter.BaseRecylerAdapter;
 import com.mercury.xrecyclerview.CRecyclerView;
-import com.mercury.xrecyclerview.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by wang.zhonghao on 2017/9/6.
+ * 扩展RecyclerView的仿QQ列表
  */
 
 public class ChatListActivity extends AppCompatActivity implements CRecyclerView.LoadingListener {
@@ -37,7 +37,9 @@ public class ChatListActivity extends AppCompatActivity implements CRecyclerView
 
         mMyAdapter = new MyAdapter(this);
         mCRecyclerView = (CRecyclerView) findViewById(R.id.crecyclerview);
-        mCRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+
+        mCRecyclerView.setLayoutManager(manager);
         mCRecyclerView.setAdapter(mMyAdapter);
 
         List<String> list = new ArrayList<>();
@@ -51,8 +53,7 @@ public class ChatListActivity extends AppCompatActivity implements CRecyclerView
     }
 
     @Override
-    public void refresh() {
-        LogUtil.logI("更多啦");
+    public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

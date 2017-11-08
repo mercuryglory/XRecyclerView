@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ public class CRecyclerView extends RecyclerView {
 
     private final AdapterDataObserver observer = new DataObserver();
     private WrapAdapter mWrapAdapter;
+    private Adapter     mAdapter;
 
 
     public CRecyclerView(Context context) {
@@ -45,11 +45,15 @@ public class CRecyclerView extends RecyclerView {
 
     }
 
+    @Override
     public void setAdapter(Adapter adapter) {
         WrapAdapter wrapAdapter = new WrapAdapter(adapter);
         super.setAdapter(wrapAdapter);
         mWrapAdapter = wrapAdapter;
-        mWrapAdapter.registerAdapterDataObserver(observer);
+        mAdapter = adapter;
+        mAdapter.registerAdapterDataObserver(observer);
+        //一开始手动调用
+        observer.onChanged();
 
     }
 
@@ -59,15 +63,25 @@ public class CRecyclerView extends RecyclerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        /**
+         * 一开始的down是item所在的parent消费,滑动后才交给Recyclerview.如果在开始的时候仍然让mLastY保持为-1的话,
+         * 则手指在item上开始向下滑动时就会得到错误的偏很大的deltaY值,使得刷新布局过早出现
+         */
+        if (mLastY == -1) {
+            mLastY = e.getRawY();
+        }
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                LogUtil.logI("down:" + mLastY);
                 mLastY = e.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 float deltaY = e.getRawY() - mLastY;
+                LogUtil.logI("lastY:" + mLastY);
+                LogUtil.logI("rawY:" + e.getRawY());
                 mLastY = e.getRawY();
-                LogUtil.logI("lastY:" + isOnTop());
                 if (isOnTop()) {
+                    LogUtil.logI("lastY:" + deltaY);
                     mRefreshHeader.onMove(deltaY / DEGREE);
                 }
                 break;
@@ -76,9 +90,9 @@ public class CRecyclerView extends RecyclerView {
                 mLastY = -1;
                 if (isOnTop() && mRefreshHeader.releaseAction()) {
                     if (loadingListener != null) {
-                        loadingListener.refresh();
+                        loadingListener.onRefresh();
                     }
-                    Log.e("refresh", "onTouchEvent: ");
+                    LogUtil.logI("refresh", "onTouchEvent: ");
                 }
                 break;
 
@@ -97,7 +111,7 @@ public class CRecyclerView extends RecyclerView {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == TYPE_REFRESH_HEADER) {
-                Log.i("refresh_bind", mRefreshHeader.getVisibleHeight() + "");
+                LogUtil.logI("refresh_bind", mRefreshHeader.getVisibleHeight() + "");
                 return new SimpleViewHolder(mRefreshHeader);
             }
             return mAdapter.onCreateViewHolder(parent, viewType);
@@ -117,6 +131,7 @@ public class CRecyclerView extends RecyclerView {
 
         @Override
         public int getItemCount() {
+            LogUtil.logI("refresh_bind", "getItemCount: " + mAdapter.getItemCount());
             if (mAdapter != null) {
                 return mAdapter.getItemCount() + 1;
             }
@@ -125,14 +140,20 @@ public class CRecyclerView extends RecyclerView {
 
         @Override
         public int getItemViewType(int position) {
+            LogUtil.logI("refresh_bind", "position:" + position);
             if (isRefreshHeader(position)) {
                 return TYPE_REFRESH_HEADER;
             }
-            return mAdapter.getItemViewType(position);
+            int adjustPos = position - 1;
+            if (adjustPos < mAdapter.getItemCount()) {
+                return mAdapter.getItemViewType(adjustPos);
+            }
+            return 0;
         }
 
         @Override
         public long getItemId(int position) {
+            LogUtil.logI("refresh_bind", "getItemId: " + position);
             if (mAdapter != null && position >= 1) {
                 int adjustPos = position - 1;
                 return mAdapter.getItemId(adjustPos);
@@ -144,7 +165,7 @@ public class CRecyclerView extends RecyclerView {
     LoadingListener loadingListener;
 
     public interface LoadingListener {
-        void refresh();
+        void onRefresh();
     }
 
     public void setOnLoadingListener(LoadingListener listener) {
@@ -169,7 +190,9 @@ public class CRecyclerView extends RecyclerView {
     private class DataObserver extends AdapterDataObserver {
         @Override
         public void onChanged() {
-            super.onChanged();
+            if (mWrapAdapter != null) {
+                mWrapAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -180,6 +203,7 @@ public class CRecyclerView extends RecyclerView {
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             mWrapAdapter.notifyItemRangeInserted(positionStart + 1, itemCount);
+
         }
 
         @Override
