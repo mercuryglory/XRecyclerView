@@ -6,12 +6,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xrecyclerview.adapter.BaseRecylerAdapter;
 import com.example.xrecyclerview.bean.TestBean;
@@ -20,15 +20,15 @@ import com.mercury.xrecyclerview.XRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements XRecyclerView.LoadingListener {
 
     private static final String TAG = "Mercury";
-    @Bind(R.id.rv)
+    @BindView(R.id.rv)
     XRecyclerView  rv;
-    @Bind(R.id.activity_main)
+    @BindView(R.id.activity_main)
     RelativeLayout activityMain;
 
     MyAdapter            mMyAdapter;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements XRecyclerView.Loa
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mMyAdapter.getData().size() < 45) {
+                if (mMyAdapter.getData().size() < 25) {
                     List<TestBean> list = new ArrayList<>();
                     for (int i = 0; i < 10; i++) {
                         list.add(new TestBean(i));
@@ -97,19 +97,19 @@ public class MainActivity extends AppCompatActivity implements XRecyclerView.Loa
                     mMyAdapter.addData(list);
                     rv.loadMoreComplete();
                 } else {
-//                    rv.loadMoreComplete();
-//                    rv.setNoMore(true);
-                    rv.removeHeaderView();
-                    View foot = LayoutInflater.from(MainActivity.this).inflate(com.mercury
-                            .xrecyclerview.R.layout
-                            .listview_footer, activityMain, false);
-                    rv.setNewFootview(foot);
-                    rv.getFooterView().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.e(TAG, "成功了" );
-                        }
-                    });
+                    rv.loadMoreComplete();
+                    rv.setNoMore(true);
+//                    rv.removeHeaderView();
+//                    View foot = LayoutInflater.from(MainActivity.this).inflate(com.mercury
+//                            .xrecyclerview.R.layout
+//                            .listview_footer, activityMain, false);
+//                    rv.setNewFootview(foot);
+//                    rv.getFooterView().setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Log.e(TAG, "成功了" );
+//                        }
+//                    });
 
                 }
 
@@ -136,10 +136,17 @@ public class MainActivity extends AppCompatActivity implements XRecyclerView.Loa
             ViewHolder viewHolder = (ViewHolder) holder;
             TestBean bean = (TestBean) mData.get(position);
             viewHolder.tvText.setText(bean.getNumber() + "");
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,"haha",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            @Bind(R.id.tv_text)
+            @BindView(R.id.tv_text)
             TextView tvText;
 
             ViewHolder(View view) {

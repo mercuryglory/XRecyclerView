@@ -20,10 +20,10 @@ public class LoadingMoreFooter extends LinearLayout {
     public final static int STATE_LOADING = 0;
     public final static int STATE_COMPLETE = 1;
     public final static int STATE_NOMORE = 2;
-    private TextView mText;
-    private String loadingHint;
-    private String noMoreHint;
-    private String loadingDoneHint;
+    private TextView tvHint;
+    private String   loadingHint;
+    private String   noMoreHint;
+    private String   loadingDoneHint;
 
 	public LoadingMoreFooter(Context context) {
 		super(context);
@@ -65,16 +65,18 @@ public class LoadingMoreFooter extends LinearLayout {
         progressCon.setView(progressView);
 
         addView(progressCon);
-        mText = new TextView(getContext());
-        mText.setText("正在加载...");
+        tvHint = new TextView(getContext());
+        tvHint.setGravity(Gravity.CENTER);
+        tvHint.setText("正在加载...");
         loadingHint = (String)getContext().getText(R.string.listview_loading);
         noMoreHint = (String)getContext().getText(R.string.nomore_loading);
         loadingDoneHint = (String)getContext().getText(R.string.loading_done);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins( (int)getResources().getDimension(R.dimen.textandiconmargin),0,0,0 );
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        int margin = (int) (getResources().getDimension(R.dimen.textandiconmargin));
+        layoutParams.setMargins(margin, margin, margin, margin);
 
-        mText.setLayoutParams(layoutParams);
-        addView(mText);
+        tvHint.setLayoutParams(layoutParams);
+        addView(tvHint);
     }
 
     public void setProgressStyle(int style) {
@@ -92,15 +94,15 @@ public class LoadingMoreFooter extends LinearLayout {
         switch(state) {
             case STATE_LOADING:
                 progressCon.setVisibility(View.VISIBLE);
-                mText.setText(loadingHint);
+                tvHint.setText(loadingHint);
                 this.setVisibility(View.VISIBLE);
                     break;
             case STATE_COMPLETE:
-                mText.setText(loadingDoneHint);
+                tvHint.setText(loadingDoneHint);
                 this.setVisibility(View.GONE);
                 break;
             case STATE_NOMORE:
-                mText.setText(noMoreHint);
+                tvHint.setText(noMoreHint);
                 progressCon.setVisibility(View.GONE);
                 this.setVisibility(View.VISIBLE);
                 break;

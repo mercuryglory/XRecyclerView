@@ -17,8 +17,6 @@ import com.mercury.xrecyclerview.CRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by wang.zhonghao on 2017/9/6.
@@ -89,12 +87,11 @@ public class ChatListActivity extends AppCompatActivity implements CRecyclerView
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            @Bind(R.id.tv_text)
             TextView tvText;
 
             ViewHolder(View view) {
                 super(view);
-                ButterKnife.bind(this, view);
+                tvText = view.findViewById(R.id.tv_text);
             }
         }
     }
